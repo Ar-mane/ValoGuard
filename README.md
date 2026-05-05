@@ -2,7 +2,7 @@
 
 ![tested_dm](https://img.shields.io/badge/TESTED-DEATHMATCH-yellowgreen) ![tested_unrated](https://img.shields.io/badge/TESTED-UNRATED-yellowgreen) ![tested_comp](https://img.shields.io/badge/TESTED-COMPETITIVE-yellowgreen)
 
-![ValoGuard_banner](assets/ValoGuard_banner.png  "ValoGuard")
+![ValoGuard_banner](assets/ValoGuard_banner.png "ValoGuard")
 
 Never get AFK penalties again by using ValoGuard, the best anti-AFK optimized for VALORANT.
 
@@ -17,26 +17,31 @@ Never get AFK penalties again by using ValoGuard, the best anti-AFK optimized fo
 
 # Requirements
 
-- [x] 30 MB RAM
-- [x] 8.01 MB disk space
+- [x] ~50 MB RAM
+- [x] ~15 MB disk space
+- [x] Windows 10/11 (WebView2 required — included with Windows 11, auto-installed on Windows 10)
 
 # Usage
 
-1. Download ValoGuard from the latest [releases](https://github.com/qode4you/ValoGuard/releases/tag/Latest)
-2. Execute `ValoGuard.exe`
-3. Use the * key to go AFK without getting penalties
+1. Download `ValoGuard.exe` from the latest [releases](https://github.com/qode4you/ValoGuard/releases/tag/Latest)
+2. Run `ValoGuard.exe` — a Valorant-themed window will appear
+3. Click **ACTIVATE** to start the anti-AFK bot
+4. Click **ABORT** to stop it at any time
+5. Close the window (×) to exit completely
 
 # Features
 
-- [x] Logs
+- [x] Valorant-themed native GUI (frameless, non-resizable)
+- [x] Real-time session timer and action counter
 - [x] Tested in all game modes
 - [x] No ban or penalties
-- [x] Easy to use
+- [x] Easy to use — no CLI required
 
 # Future
-- [ ] GUI (Maybe something like Tkinter to keep it simple)
+
 - [ ] Customizable key bindings
 - [ ] Simpler trigger (e.g. F-key or toggle)
+- [ ] Tray icon support
 
 # FAQ
 
@@ -49,16 +54,37 @@ Remember, however, that each player is responsible for the actions on his accoun
 
 **How do I stop ValoGuard?**
 
-ValoGuard stops automatically after 80 minutes, if you want to stop it earlier you have to close the ValoGuard window via the X.
+Click **ABORT** in the app, or close the window using the × button in the top-right corner. ValoGuard also stops automatically after 80 minutes.
 
 # Contributing
 
 ### Contributions are welcome and encouraged!
 
 #### Development Setup:
-    1. Clone the repository
-    2. Install dependencies (pip install -r requirements.txt)
-    3. Run the script using Python
+
+```bash
+git clone https://github.com/qode4you/ValoGuard
+cd ValoGuard
+make install   # installs pythonnet (pre-release) + pywebview + keyboard
+make dev       # runs the app in dev mode
+make build     # produces dist/ValoGuard.exe via PyInstaller
+```
+
+**Dependencies:** `pywebview`, `pythonnet`, `keyboard`, `pyinstaller`
+
+#### Project Structure:
+
+```
+src/
+  main.py          # entry point — pywebview window + API
+  valoguard.py     # bot logic — movement, logging, 80-min auto-stop
+web/
+  index.html       # Valorant-themed UI
+  main.js          # session timer, action counter, pywebview bridge
+  icon.ico         # app icon
+main.spec          # PyInstaller build config
+makefile           # dev / build / install shortcuts
+```
 
 ## License
 
