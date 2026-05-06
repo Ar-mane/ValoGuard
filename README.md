@@ -23,7 +23,7 @@ Never get AFK penalties again by using ValoGuard, the best anti-AFK optimized fo
 
 # Usage
 
-1. Download `ValoGuard.exe` from the latest [releases](https://github.com/qode4you/ValoGuard/releases/tag/Latest)
+1. Download `ValoGuard.exe` from the latest [releases](https://github.com/qode4you/ValoGuard/releases)
 2. Run `ValoGuard.exe` — a Valorant-themed window will appear
 3. Click **ACTIVATE** to start the anti-AFK bot
 4. Click **ABORT** to stop it at any time
