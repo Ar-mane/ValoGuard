@@ -11,4 +11,4 @@ install:
 	pip install -r requirements.txt
 
 clean:
-	powershell -Command "Remove-Item -Path dist, build, __pycache__ -Recurse -Force -ErrorAction SilentlyContinue"
+	python -c "import shutil; [shutil.rmtree(d, ignore_errors=True) for d in ['dist', 'build', '__pycache__']]"
