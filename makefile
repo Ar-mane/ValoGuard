@@ -2,13 +2,13 @@
 .PHONY: dev build install clean
 
 dev:
-	python3 src/main.py
+	python src/main.py
 
 build:
-	pyinstaller main.spec
+	python -m PyInstaller main.spec
 
 install:
-	pip install pythonnet --pre && pip install pywebview keyboard
+	pip install -r requirements.txt
 
 clean:
-	rm -rf dist build __pycache__ *.spec
+	powershell -Command "Remove-Item -Path dist, build, __pycache__ -Recurse -Force -ErrorAction SilentlyContinue"

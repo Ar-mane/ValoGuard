@@ -65,9 +65,10 @@ Click **ABORT** in the app, or close the window using the × button in the top-r
 ```bash
 git clone https://github.com/qode4you/ValoGuard
 cd ValoGuard
-make install   # installs pythonnet (pre-release) + pywebview + keyboard
+make install   # installs pythonnet (pre-release) + pywebview + keyboard + pyinstaller
 make dev       # runs the app in dev mode
 make build     # produces dist/ValoGuard.exe via PyInstaller
+make clean     # removes build artifacts (dist, build, __pycache__) 
 ```
 
 **Dependencies:** `pywebview`, `pythonnet`, `keyboard`, `pyinstaller`
