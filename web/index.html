@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ValoGuard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              valo: "#FF4655",
+              dark: "#0F1923",
+              panel: "#1A2530",
+              muted: "#141E27",
+            },
+            fontFamily: { valo: ["Rajdhani", "sans-serif"] },
+            keyframes: {
+              glow: {
+                "0%,100%": { boxShadow: "0 0 6px #FF4655" },
+                "50%": { boxShadow: "0 0 18px #FF4655, 0 0 30px #FF465540" },
+              },
+            },
+            animation: { glow: "glow 1.4s ease-in-out infinite" },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        overflow: hidden;
+      }
+      .clip-card {
+        clip-path: polygon(
+          0 0,
+          calc(100% - 24px) 0,
+          100% 24px,
+          100% 100%,
+          24px 100%,
+          0 calc(100% - 24px)
+        );
+      }
+      .clip-btn-l {
+        clip-path: polygon(
+          0 0,
+          calc(100% - 12px) 0,
+          100% 12px,
+          100% 100%,
+          0 100%
+        );
+      }
+      .clip-btn-r {
+        clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+      }
+      .drag {
+        -webkit-app-region: drag;
+        app-region: drag;
+      }
+      .no-drag {
+        -webkit-app-region: no-drag;
+        app-region: no-drag;
+      }
+      .win-btn {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.6;
+        transition:
+          opacity 0.15s,
+          background 0.15s;
+        cursor: pointer;
+      }
+      .win-btn:hover {
+        opacity: 1;
+      }
+      #btn-close:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+      #btn-min:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    </style>
+  </head>
+  <body class="font-valo bg-muted h-screen flex select-none overflow-hidden">
+    <div
+      class="clip-card w-full flex flex-col"
+      style="
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.04),
+          0 24px 64px rgba(0, 0, 0, 0.6);
+      "
+    >
+      <!-- top bar / custom titlebar -->
+      <div
+        class="drag flex items-center justify-between px-5"
+        style="
+          background: linear-gradient(90deg, #ff4655 0%, #cc2233 100%);
+          height: 36px;
+        "
+      >
+        <div
+          class="flex items-center gap-2 no-drag"
+          style="pointer-events: none"
+        >
+          <div class="w-2.5 h-2.5 rotate-45 bg-white/40 shrink-0"></div>
+          <span
+            class="text-white font-bold tracking-[0.45em] text-[13px] uppercase"
+            >ValoGuard</span
+          >
+        </div>
+        <div class="flex items-center gap-1 no-drag">
+          <span
+            class="text-white/85 text-[9px] tracking-[0.35em] uppercase font-semibold mr-3"
+            >Anti‑AFK // v2</span
+          >
+          <div
+            class="win-btn"
+            id="btn-min"
+            onclick="window.pywebview.api.minimize_window()"
+            title="Minimize"
+          >
+            <svg width="10" height="1" viewBox="0 0 10 1" fill="white">
+              <rect width="10" height="1" />
+            </svg>
+          </div>
+          <div
+            class="win-btn"
+            id="btn-close"
+            onclick="window.pywebview.api.close_window()"
+            title="Close"
+          >
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="white">
+              <line
+                x1="0"
+                y1="0"
+                x2="10"
+                y2="10"
+                stroke="white"
+                stroke-width="1.5"
+              />
+              <line
+                x1="10"
+                y1="0"
+                x2="0"
+                y2="10"
+                stroke="white"
+                stroke-width="1.5"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- red accent line -->
+      <div
+        class="h-[2px] w-full"
+        style="background: linear-gradient(90deg, #ff4655 0%, transparent 70%)"
+      ></div>
+
+      <!-- status hero -->
+      <div
+        class="bg-panel relative px-6 py-5 overflow-hidden"
+        style="border-bottom: 1px solid rgba(255, 255, 255, 0.05)"
+      >
+        <!-- hatch pattern -->
+        <div
+          class="absolute inset-0 opacity-[0.03]"
+          style="
+            background: repeating-linear-gradient(
+              -45deg,
+              #ff4655 0px,
+              #ff4655 1px,
+              transparent 1px,
+              transparent 7px
+            );
+          "
+        ></div>
+        <!-- left red bar -->
+        <div
+          class="absolute left-0 top-0 bottom-0 w-[3px]"
+          style="
+            background: linear-gradient(180deg, #ff4655 0%, transparent 100%);
+          "
+        ></div>
+
+        <p
+          class="text-white text-[8px] tracking-[0.6em] uppercase font-semibold mb-3"
+        >
+          Protocol Status
+        </p>
+        <div class="flex items-center gap-3">
+          <div
+            id="status-dot"
+            class="w-4 h-4 bg-white/50 rotate-45 shrink-0 transition-all duration-500"
+          ></div>
+          <span
+            id="status"
+            class="text-[22px] text-white/50 font-bold tracking-[0.3em] uppercase transition-all duration-500"
+            >STANDBY</span
+          >
+        </div>
+        <!-- agent id tag -->
+        <div class="absolute right-5 bottom-4 flex flex-col items-end gap-0.5">
+          <span class="text-white/10 text-[8px] tracking-[0.4em] uppercase"
+            >Agent ID</span
+          >
+          <span class="text-white/20 text-[10px] font-bold tracking-wider"
+            >VG‑001</span
+          >
+        </div>
+      </div>
+
+      <!-- stats row -->
+      <div
+        class="bg-panel grid grid-cols-2"
+        style="border-bottom: 1px solid rgba(255, 255, 255, 0.05)"
+      >
+        <div
+          class="px-6 py-4"
+          style="border-right: 1px solid rgba(255, 255, 255, 0.05)"
+        >
+          <p
+            class="text-white/20 text-[8px] tracking-[0.5em] uppercase font-semibold mb-1.5"
+          >
+            Session
+          </p>
+          <p
+            id="session-time"
+            class="text-white/65 text-[17px] font-bold tabular-nums tracking-wider"
+          >
+            00:00:00
+          </p>
+        </div>
+        <div class="px-6 py-4">
+          <p
+            class="text-white/20 text-[8px] tracking-[0.5em] uppercase font-semibold mb-1.5"
+          >
+            Actions
+          </p>
+          <p
+            id="action-count"
+            class="text-white/65 text-[17px] font-bold tabular-nums tracking-wider"
+          >
+            0
+          </p>
+        </div>
+      </div>
+
+      <!-- buttons -->
+      <div class="bg-panel flex gap-3 px-5 py-4">
+        <button
+          id="start-btn"
+          onclick="startBot()"
+          class="clip-btn-l flex-1 py-[11px] bg-valo text-white text-[11px] font-bold tracking-[0.3em] uppercase transition-all hover:brightness-110 active:scale-[0.97] disabled:opacity-20 disabled:cursor-not-allowed"
+        >
+          ▶&nbsp;&nbsp;ACTIVATE
+        </button>
+        <button
+          id="stop-btn"
+          onclick="stopBot()"
+          disabled
+          class="clip-btn-r flex-1 py-[11px] text-[11px] font-bold tracking-[0.3em] uppercase transition-all active:scale-[0.97] disabled:opacity-20 disabled:cursor-not-allowed"
+          style="
+            border: 1px solid rgba(255, 70, 85, 0.25);
+            color: rgba(255, 70, 85, 0.35);
+          "
+        >
+          ■&nbsp;&nbsp;ABORT
+        </button>
+      </div>
+
+      <!-- footer -->
+      <div
+        class="bg-muted px-5 py-2 flex items-center justify-between"
+        style="border-top: 1px solid rgba(255, 255, 255, 0.04)"
+      >
+        <div class="flex items-center gap-1.5">
+          <div
+            class="w-1.5 h-1.5 rotate-45 shrink-0"
+            style="background: #ff465560"
+          ></div>
+          <span
+            class="text-white/15 text-[8px] tracking-[0.4em] uppercase font-semibold"
+            >Secure Channel</span
+          >
+        </div>
+        <span class="text-white/10 text-[8px] tracking-widest font-mono"
+          >VAFK//SYS</span
+        >
+      </div>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>

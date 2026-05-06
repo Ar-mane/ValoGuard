@@ -3,4 +3,4 @@
 log/
 dist/
 build/
-ValoGuard.spec
+**/__pycache__/*
