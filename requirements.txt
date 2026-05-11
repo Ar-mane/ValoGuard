@@ -1,4 +1,4 @@
 pywebview==6.2.1
 pythonnet==3.1.0rc0
-keyboard==0.13.5
+pynput==1.7.7
 pyinstaller==6.20.0

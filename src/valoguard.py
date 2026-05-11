@@ -2,11 +2,12 @@
 # MIT License - Copyright (c) 2026 Qode
 # See LICENSE file for full license text
 
-import keyboard
+import os
 import random
 import time
-import os
 from datetime import datetime
+
+from pynput.keyboard import Controller, Key
 
 LOG_DIR = "log"
 LOG_FILE = os.path.join(LOG_DIR, "log.txt")
@@ -20,12 +21,13 @@ MOVE_ACTIONS = [
     ("BACKWARDS", "s"),
     ("LEFT", "a"),
     ("RIGHT", "d"),
-    ("UP", "space"),
+    ("UP", Key.space),
 ]
 
 # VARS
 _window = None
 status = False
+k_board = Controller()
 
 
 def current_time_str():
@@ -34,26 +36,36 @@ def current_time_str():
 
 # CONTROL KEYBOARD
 def perform_movement(key_to_press):
-    keyboard.press(key_to_press)
+    k_board.press(key_to_press)
     time.sleep(MOVE_HOLD_SECONDS)
-    keyboard.release(key_to_press)
+    k_board.release(key_to_press)
     time.sleep(MOVE_PAUSE_SECONDS)
 
 
 def write_to_team(message):
-    keyboard.press_and_release("enter")
+    k_board.press(Key.enter)
     time.sleep(0.2)
-    keyboard.write(message)
-    keyboard.press_and_release("enter")
-
+    k_board.release(Key.enter)
+    time.sleep(0.2)
+    k_board.type(message)
+    k_board.press(Key.enter)
+    time.sleep(0.2)
+    k_board.release(Key.enter)
+    return
 
 def write_to_global(message):
-    keyboard.press_and_release("shift+enter")
+    k_board.press(Key.shift)
+    k_board.press(Key.enter)
     time.sleep(0.2)
-    keyboard.write(message)
-    keyboard.press_and_release("enter")
-
-
+    k_board.release(Key.shift)
+    k_board.release(Key.enter)
+    time.sleep(0.2)
+    k_board.type(message)
+    k_board.press(Key.enter)
+    time.sleep(0.2)
+    k_board.release(Key.enter)
+    return
+ 
 # RANDOM MOVEMENT
 def move(index):
     try:
